@@ -1,9 +1,14 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.get('/', function (req, res, next) {
+  /* io.on('connection', function (socket) {
+     console.log('a user connected')
+   }) */
 
-module.exports = router;
+  // res.io.emit('socketToMe', 'users')
+  res.render('index', { title: 'Express' })
+})
+
+module.exports = router
