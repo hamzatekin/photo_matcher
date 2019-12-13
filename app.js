@@ -8,10 +8,9 @@ var usersRouter = require('./routes/users')
 var roomRouter = require('./routes/room')
 
 var app = express()
-var server = require('http').createServer(app)
-var io = require('socket.io')(server)
+app.io = require('socket.io')()
 
-var indexRouter = require('./routes/index')
+var indexRouter = require('./routes/index')(app.io)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -24,16 +23,10 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
-/* io.on('connection', (socket) => {
-  console.log('whatsupp!', socket.id)
-}) */
 app.get('/users', function (req, res, next) {
   res.render('room')
 })
 app.use('/room', roomRouter)
-io.on('connection', (socket) => {
-  console.log('whatsupp!', socket.id)
-})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -51,4 +44,4 @@ app.use(function (err, req, res, next) {
   res.render('error')
 })
 
-module.exports = { app: app, server: server, io: io }
+module.exports = app
